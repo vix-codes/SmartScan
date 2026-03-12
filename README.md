@@ -60,28 +60,28 @@ For deeper architecture notes and processing pipeline details, see [`docs/ARCHIT
 
 ## Project structure
 
+This repository is a multi-package workspace. The runnable Flutter app lives in `mobile_app/`, while shared/domain packages are split into top-level folders (`core_engine/`, `database/`, `models/`, `services/`).
+
 ```text
-lib/
-  app/
-    app.dart
-    bootstrap.dart
-  core/
-    background/
-    di/
-    error/
-    security/
-    storage/
-    utils/
-  features/
-    document/
-    editor/
-    export/
-    ocr/
-    scan/
-    search/
-    signature/
-    sync/
-  main.dart
+mobile_app/
+  lib/
+    app/
+      app.dart
+      bootstrap.dart
+    core/
+      di/
+      error/
+      security/
+      storage/
+      utils/
+    features/
+      document/
+      editor/
+      export/
+      ocr/
+      scan/
+      signature/
+    main.dart
 docs/
   ARCHITECTURE.md
 ```
@@ -99,6 +99,7 @@ docs/
 ### Setup
 
 ```bash
+cd mobile_app
 flutter pub get
 dart run build_runner build --delete-conflicting-outputs
 flutter run
@@ -141,4 +142,4 @@ If you’re adopting this project, the most impactful next steps are:
 
 ## License
 
-This project is licensed under the **MIT License**. See [LICENSE](LICENSE) for the full text.
+This project is licensed under the **MIT License**. See [`mobile_app/LICENSE`](mobile_app/LICENSE) for the full text.
