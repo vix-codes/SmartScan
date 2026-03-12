@@ -10,3 +10,7 @@ dependencies:
   isar: ^3.1.0+1
   smartscan_models:
     path: ../models
+
+dev_dependencies:
+  build_runner: ^2.4.11
+  isar_generator: ^3.1.0+1

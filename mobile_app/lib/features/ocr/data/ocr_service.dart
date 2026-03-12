@@ -40,7 +40,7 @@ class OcrService implements OcrPipeline {
       fullText: recognized.text,
       words: words,
       detectedLanguages: recognized.blocks
-          .map((e) => e.recognizedLanguages.map((lang) => lang.languageTag))
+          .map((e) => e.recognizedLanguages)
           .expand((e) => e)
           .whereType<String>()
           .toSet()

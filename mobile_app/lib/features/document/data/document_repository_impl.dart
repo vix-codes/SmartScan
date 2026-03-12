@@ -48,6 +48,7 @@ class DocumentRepositoryImpl implements DocumentRepository {
       final output = <Document>[];
       for (final doc in entities) {
         final pages = await _isar.pageEntitys.filter().documentIdEqualTo(doc.documentId).sortByOrder().findAll();
+        await doc.tags.load();
         output.add(Document(
           documentId: doc.documentId,
           title: doc.title,
@@ -58,7 +59,7 @@ class DocumentRepositoryImpl implements DocumentRepository {
                     processedImagePath: page.processedImagePath,
                   ))
               .toList(growable: false),
-          tags: (await doc.tags.load()).map((t) => t.name).toList(growable: false),
+          tags: doc.tags.map((t) => t.name).toList(growable: false),
           updatedAt: doc.updatedAt,
         ));
       }

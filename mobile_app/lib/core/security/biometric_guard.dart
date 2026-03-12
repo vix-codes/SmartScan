@@ -7,8 +7,10 @@ class BiometricGuard {
   Future<bool> authenticate() {
     return _localAuth.authenticate(
       localizedReason: 'Authenticate to access encrypted SmartScan documents',
-      biometricOnly: true,
-      stickyAuth: true,
+      options: const AuthenticationOptions(
+        biometricOnly: true,
+        stickyAuth: true,
+      ),
     );
   }
 }

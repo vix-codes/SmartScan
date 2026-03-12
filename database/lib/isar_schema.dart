@@ -1,6 +1,6 @@
 import 'package:isar/isar.dart';
 
-part 'document_entity.g.dart';
+part 'isar_schema.g.dart';
 
 @collection
 class DocumentEntity {

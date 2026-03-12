@@ -1,12 +1,12 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:isar/isar.dart';
 import 'package:smartscan/core/storage/isar_provider.dart';
+import 'package:smartscan/core/storage/file_storage_service.dart';
 import 'package:smartscan/core/security/encryption_service.dart';
 import 'package:smartscan_core_engine/ocr_engine/ocr_pipeline.dart';
 import 'package:smartscan_core_engine/document_pipeline/scan_pipeline.dart';
 import 'package:smartscan/features/document/data/document_repository_impl.dart';
 import 'package:smartscan/features/document/domain/document_repository.dart';
-import 'package:smartscan/features/ocr/data/ocr_service.dart';
 import 'package:smartscan/features/ocr/data/ocr_service.dart';
 import 'package:smartscan/features/scan/data/scanning_service.dart';
 import 'package:smartscan/features/export/data/pdf_export_service.dart';
