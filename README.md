@@ -1,31 +1,64 @@
 # SmartScan
 
-SmartScan is an **offline-first mobile document scanner** optimized for mid-range Android devices.
-This repository provides a production-grade Flutter architecture and implementation skeleton for:
+SmartScan is an **offline-first Flutter document scanner architecture** designed for Android-first mobile workflows. It focuses on scanning, OCR, editing, exporting, secure local storage, and background sync/index tasks while keeping performance practical for mid-range devices.
 
-- Camera capture and edge detection pipeline
-- Perspective correction and image enhancement
-- OCR (Google ML Kit with Indic language support)
-- Multi-page document editing and ordering
-- PDF export with hidden OCR text layer
-- DOCX/XLSX export engine
-- Secure local storage using AES-256 encryption + biometric access
-- Search indexing and optional cloud sync jobs
+> Current state: this repository is a strong **production-oriented scaffold / starter implementation** with core modules and contracts in place.
 
-## Tech Stack
+---
 
-- **Flutter / Dart** (UI + domain orchestration)
-- **CameraX** through Flutter camera plugin + Android platform channel hook
-- **OpenCV** (native edge detection and perspective correction bridge)
-- **Google ML Kit** (offline text recognition)
-- **Isar** (local encrypted metadata store)
-- **Android WorkManager** (sync/index/export background jobs)
+## What SmartScan does
 
-## Architecture
+SmartScan is designed to support an end-to-end document workflow:
 
-See [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) for full modular architecture, pipeline design, and performance notes.
+1. **Capture & detect pages** from camera input.
+2. **Process scans** (crop/warp/enhance) through a scan pipeline.
+3. **Extract text (OCR)** via ML Kit-compatible services.
+4. **Manage multi-page documents** with domain-driven repositories.
+5. **Edit pages** (e.g., reorder) before export.
+6. **Export** to PDF/DOCX/XLSX formats.
+7. **Index OCR text** for offline search.
+8. **Secure content** with encryption and biometric-gated access.
+9. **Run background jobs** for sync, indexing, and retries.
 
-## Repository Structure
+---
+
+## Core capabilities in this codebase
+
+- **Feature-first clean architecture** (presentation/domain/data/core).
+- **Riverpod state management** for app/UI orchestration.
+- **Isar local database layer** for document/page metadata.
+- **Repository abstraction** for document lifecycle operations.
+- **Scan/OCR/export service interfaces** ready for platform adapters.
+- **Security primitives** for encrypted file workflows and biometric gating.
+- **WorkManager dispatcher stubs** for background task orchestration.
+
+---
+
+## Tech stack
+
+- **Flutter / Dart**
+- **Riverpod**
+- **Isar**
+- **Google ML Kit (intended OCR integration path)**
+- **OpenCV bridge strategy (intended image processing path)**
+- **Android WorkManager (background jobs)**
+
+---
+
+## Architecture at a glance
+
+SmartScan follows a modular clean architecture:
+
+- **Presentation** → pages/controllers/state
+- **Domain** → entities, use-cases, pipeline contracts
+- **Data** → repository implementations + service adapters
+- **Core** → DI, storage, security, error/result abstractions
+
+For deeper architecture notes and processing pipeline details, see [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md).
+
+---
+
+## Project structure
 
 ```text
 lib/
@@ -34,64 +67,78 @@ lib/
     bootstrap.dart
   core/
     background/
-      work_manager_dispatcher.dart
     di/
-      service_locator.dart
     error/
-      app_exception.dart
     security/
-      biometric_guard.dart
-      encryption_service.dart
     storage/
-      file_storage_service.dart
-      isar_provider.dart
     utils/
-      result.dart
   features/
-    scan/
-      data/scanning_service.dart
-      domain/scan_pipeline.dart
-      presentation/scan_controller.dart
-    ocr/
-      data/ocr_service.dart
-      domain/ocr_pipeline.dart
     document/
-      data/document_repository_impl.dart
-      domain/document.dart
-      domain/document_repository.dart
-      presentation/document_list_controller.dart
     editor/
-      domain/page_editor_service.dart
-      presentation/editor_controller.dart
-    signature/
-      data/signature_service.dart
-      domain/signature.dart
     export/
-      data/pdf_export_service.dart
-      data/docx_export_service.dart
-      data/xlsx_export_service.dart
-      domain/export_models.dart
+    ocr/
+    scan/
     search/
-      data/search_index_service.dart
-      domain/search_query.dart
+    signature/
     sync/
-      data/cloud_sync_service.dart
-      domain/sync_job.dart
-main.dart
+  main.dart
+docs/
+  ARCHITECTURE.md
 ```
 
-## Getting Started
+---
 
-1. Install Flutter 3.22+ and Android SDK.
-2. Run `flutter pub get`.
-3. Generate Isar/json models:
-   - `dart run build_runner build --delete-conflicting-outputs`
-4. Run app: `flutter run`.
+## Quick start
 
-## Performance Focus
+### Prerequisites
 
-- Progressive image processing pipeline (preview -> capture -> normalize)
-- Bounded isolates for OCR and export queues
-- Isar write batching and lazy loading
-- Thumbnail-first rendering for document list
-- WorkManager constraints for battery/network awareness
+- Flutter SDK 3.22+
+- Android SDK / Android Studio
+- Dart SDK (bundled with Flutter)
+
+### Setup
+
+```bash
+flutter pub get
+dart run build_runner build --delete-conflicting-outputs
+flutter run
+```
+
+---
+
+## Current app behavior
+
+At startup, SmartScan boots dependencies and opens a document list UI.
+
+- The home screen streams documents from the repository.
+- Tapping **Scan** currently creates an "Untitled Scan" draft document.
+- The structure is ready for real scan capture + pipeline wiring.
+
+---
+
+## Security and privacy goals
+
+SmartScan is built around offline-first, local-first principles:
+
+- Encrypted file storage flow (AES-256-GCM strategy)
+- Keystore + biometric-gated key/session workflows
+- Local metadata persistence with Isar
+- Optional sync architecture rather than mandatory cloud dependency
+
+---
+
+## Roadmap suggestions
+
+If you’re adopting this project, the most impactful next steps are:
+
+- Wire camera capture to `ScanPipeline` implementation.
+- Implement OpenCV/native perspective correction adapters.
+- Complete OCR integration and indexing persistence.
+- Finalize export engines (PDF text layer, DOCX/XLSX fidelity).
+- Add tests around repositories, controllers, and pipeline orchestration.
+
+---
+
+## License
+
+This project is licensed under the **MIT License**. See [LICENSE](LICENSE) for the full text.
