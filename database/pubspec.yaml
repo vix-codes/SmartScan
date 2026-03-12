@@ -1,0 +1,12 @@
+name: smartscan_database
+description: Database schema for SmartScan
+version: 1.0.0
+publish_to: none
+
+environment:
+  sdk: ">=3.3.0 <4.0.0"
+
+dependencies:
+  isar: ^3.1.0+1
+  smartscan_models:
+    path: ../models
